@@ -17,9 +17,7 @@ obstacles:
 1. it appears the debug endpoint has a decorator `is_from_localhost` defined
 in util.pyL12. the debug endpoint will only be available on the localhost.
 
-2. there utilty function `is_safe_url` at util.pyL6 that checks for SSRF.
-
-3. the default Go http client doesn't allow for setting the remote address
+2. the default Go http client doesn't allow for setting the remote address
 because of SSRF reasons. need to write my own client and be able to set
 the Remote Address header manually.
 */
