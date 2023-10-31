@@ -1,5 +1,29 @@
 // exploit for https://app.hackthebox.com/challenges/proxyasaservice
 
+/* objective:
+
+get the flag
+
+research:
+
+after downloading the zipped contents, it appears in routes.py:31
+there's a debug endpoint available at /debug/environment that will return a json
+object of the app's environment. DockerfileL32 also shows and ENV key named FLAG
+is present. So, I'll need to exploit the debug endpoint for it to respond with
+the contents of the environment.
+
+obstacles:
+
+1. it appears the debug endpoint has a decorator `is_from_localhost` defined
+in util.pyL12. the debug endpoint will only be available on the localhost.
+
+2. there utilty function `is_safe_url` at util.pyL6 that checks for SSRF.
+
+3. the default Go http client doesn't allow for setting the remote address
+because of SSRF reasons. need to write my own client and be able to set
+the Remote Address header manually.
+*/
+
 package main
 
 import (
@@ -9,9 +33,10 @@ import (
 )
 
 func main() {
-	// cli flags to point to target host
+	// cli flags to point to target host since HTB's endpoints
+	// are spun up on demand.
 	host := flag.String("host", "localhost", "Hostname or IP address")
-	port := flag.String("port", "8080", "Port number")
+	port := flag.String("port", "80", "Port number")
 
 	// parse the command-line flags
 	flag.Parse()
