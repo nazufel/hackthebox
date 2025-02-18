@@ -49,7 +49,7 @@ func main() {
 		"command": "Blip-blop, in a pickle with a hiccup! Shmiggity-shmack",
 	}
 
-	// Make the GET request
+	// Make the request
 	response, err := makeRequest(url, payload)
 	if err != nil {
 		fmt.Printf("Error making GET request: %v\n", err)
